@@ -50,6 +50,7 @@ listint_t *get_nodeint_at_index(listint_t *head, unsigned int index)
 
 	if (head)
 	{
+
 		while (current != NULL)
 		{
 			if (iter_times == index)
