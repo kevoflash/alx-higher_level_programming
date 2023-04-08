@@ -5,4 +5,7 @@ class LockedClass:
     except for the attribute called first_name.
     """
     __slots__ = ['first_name']
-
+        
+        def __init__(self):
+        """ Init method """
+        pass
