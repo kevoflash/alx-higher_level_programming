@@ -1,61 +1,28 @@
-#include <stdio.h>
-#include <string.h>
-#include <Python.h>
+#include "Python.h"
 
 /**
- * print_python_string - Prints string information
- *
- * @p: Python Object
- * Return: no return
- */
+ * print_python_string - Prints information about Python strings.
+ * @p: A PyObject string object.
+ */
 void print_python_string(PyObject *p)
 {
-  PyObject *encoded_str;
-  PyObject *utf8_str;
+	long int length;
 
-  if (p == NULL) {
-    printf("ERROR: Invalid Python Object\n");
-    return;
-  }
+	fflush(stdout);
 
-  printf("[.] string object info\n");
+	printf("[.] string object info\n");
+	if (strcmp(p->ob_type->tp_name, "str") != 0)
+	{
+		printf("  [ERROR] Invalid String Object\n");
+		return;
+	}
 
-  if (PyUnicode_Check(p))
-  {
-    if (PyUnicode_IS_COMPACT_ASCII(p))
-      printf(" type: compact ascii\n");
-    else
-      printf(" type: compact unicode object\n");
+	length = ((PyASCIIObject *)(p))->length;
 
-    printf(" length: %ld\n", PyUnicode_GET_LENGTH(p));
-
-    // Convert the Python Unicode object to a UTF-8 encoded string
-    encoded_str = PyUnicode_AsUTF8String(p);
-    if (encoded_str != NULL)
-    {
-      // Convert the encoded string to a C string
-      utf8_str = PyBytes_AsString(encoded_str);
-      if (utf8_str != NULL)
-      {
-        printf(" value: %s\n", utf8_str);
-      }
-      else
-      {
-        printf(" [ERROR] Failed to convert to UTF-8 string\n");
-      }
-      // Don't forget to release the memory
-      Py_XDECREF(encoded_str);
-    }
-    else
-    {
-      printf(" [ERROR] Failed to encode string to UTF-8\n");
-    }
-  }
-  else
-  {
-    printf(" [ERROR] Invalid String Object\n");
-  }
-
-  // Release the memory allocated to utf8_str, even if it is NULL
-  Py_XDECREF(utf8_str);
+	if (PyUnicode_IS_COMPACT_ASCII(p))
+		printf("  type: compact ascii\n");
+	else
+		printf("  type: compact unicode object\n");
+	printf("  length: %ld\n", length);
+	printf("  value: %ls\n", PyUnicode_AsWideCharString(p, &length));
 }
