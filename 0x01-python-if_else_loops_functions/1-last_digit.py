@@ -14,4 +14,4 @@ if l_digit > 5:
 elif l_digit == 0:
     print(" and is 0")
 else:
-    print(" and less than 8 and not 0")
+    print(" and less than 6 and not 0")
