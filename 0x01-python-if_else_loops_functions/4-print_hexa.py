@@ -1,3 +1,3 @@
 #!/usr/bin/python3
-for num in range(97, 123):
-    print(chr(num), end='')
+for num in range(99):
+    print("{:02d} {}".format(num, hex(num)))
